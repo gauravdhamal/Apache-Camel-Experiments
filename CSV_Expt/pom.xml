@@ -25,6 +25,13 @@
 		    <artifactId>camel-bindy</artifactId>
 		    <version>3.20.4</version>
 		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.apache.camel/camel-jdbc -->
+		<dependency>
+		    <groupId>org.apache.camel</groupId>
+		    <artifactId>camel-jdbc</artifactId>
+		    <version>3.20.4</version>
+		</dependency>
 
   </dependencies>
 </project>
