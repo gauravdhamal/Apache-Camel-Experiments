@@ -3,4 +3,28 @@
   <groupId>com.csv</groupId>
   <artifactId>CSV_Expt</artifactId>
   <version>0.0.1-SNAPSHOT</version>
+  
+  <dependencies>
+    	<!-- https://mvnrepository.com/artifact/org.apache.camel/camel-core -->
+		<dependency>
+		    <groupId>org.apache.camel</groupId>
+		    <artifactId>camel-core</artifactId>
+		    <version>3.20.4</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.apache.camel/camel-csv -->
+		<dependency>
+		    <groupId>org.apache.camel</groupId>
+		    <artifactId>camel-csv</artifactId>
+		    <version>3.20.4</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.apache.camel/camel-bindy -->
+		<dependency>
+		    <groupId>org.apache.camel</groupId>
+		    <artifactId>camel-bindy</artifactId>
+		    <version>3.20.4</version>
+		</dependency>
+
+  </dependencies>
 </project>
