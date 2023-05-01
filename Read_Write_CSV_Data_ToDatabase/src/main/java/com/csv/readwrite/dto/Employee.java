@@ -12,8 +12,8 @@ import lombok.ToString;
 @CsvRecord(separator = ",", skipField = true, skipFirstLine = true)
 public class Employee {
 
-	@DataField(pos = 1)
 	@Id
+	@DataField(pos = 1)
 	private Integer id;
 
 	@DataField(pos = 2)

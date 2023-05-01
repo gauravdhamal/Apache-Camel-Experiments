@@ -19,9 +19,9 @@ public class ReadWriteCsvDataToDatabaseApplication {
 
 		camelContext.start();
 
-		Thread.sleep(5000);
+//		Thread.sleep(5000);
 
-		camelContext.stop();
+//		camelContext.stop();
 	}
 
 }
