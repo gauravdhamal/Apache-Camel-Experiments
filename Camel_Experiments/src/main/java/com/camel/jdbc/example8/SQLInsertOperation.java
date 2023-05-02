@@ -1,5 +1,8 @@
 package com.camel.jdbc.example8;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.camel.CamelContext;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
@@ -28,10 +31,16 @@ public class SQLInsertOperation {
 			public void configure() throws Exception {
 				from("direct:insert").process(new Processor() {
 					public void process(Exchange exchange) throws Exception {
-						String query = "insert into customer(id) values(6)";
-						exchange.getIn().setBody(query);
+						Employee employee = new Employee(1, "mm", "pune", "emp");
+						Map<String, Object> empMap = new HashMap<String, Object>();
+						empMap.put("id", employee.getId());
+						empMap.put("name", employee.getName());
+						empMap.put("address", employee.getAddress());
+						empMap.put("role", employee.getRole());
+						System.out.println(empMap);
+						exchange.getIn().setBody(empMap);
 					}
-				}).to("jdbc:dataSource");
+				}).to("sql:INSERT INTO employee(id,name,address,role) VALUES(:#id, :#name, :#address, :#role)");
 			}
 		});
 
