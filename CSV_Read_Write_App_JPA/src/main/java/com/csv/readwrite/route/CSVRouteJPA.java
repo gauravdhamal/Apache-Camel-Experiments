@@ -7,7 +7,9 @@ import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.dataformat.bindy.csv.BindyCsvDataFormat;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Map;
 
 @Component
 public class CSVRouteJPA extends RouteBuilder {
@@ -30,8 +32,16 @@ public class CSVRouteJPA extends RouteBuilder {
                 .to("jpa:Employee")
                 .log("Emp added to db");
 
-        from("jpa://com.csv.readwrite.entity.Employee?consumeDelete=false")
-                .setHeader("CamelJpaNamedQuery", constant("Employee.findAll"))
+        from("timer:myTimer?period=100000")
+                .to("jpa://com.csv.readwrite.entity.Employee?consumeDelete=false&namedQuery=Employee.findAll")
+                .process(new Processor() {
+                    @Override
+                    public void process(Exchange exchange) throws Exception {
+                        ArrayList<Map<String, String>> mapList = exchange.getIn().getBody(ArrayList.class);
+                        System.out.println("mapList : "+mapList);
+                        exchange.getIn().setBody(mapList);
+                    }
+                })
                 .log("Body : ${body}");
     }
 
