@@ -1,0 +1,3 @@
+spring:
+  sql:
+    insertEmployee: "INSERT INTO employee(id, name, address, role) VALUES(:#id, :#name, :#address, :#role)"
