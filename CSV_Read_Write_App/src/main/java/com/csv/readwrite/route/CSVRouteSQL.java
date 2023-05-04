@@ -7,7 +7,9 @@ import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.dataformat.bindy.csv.BindyCsvDataFormat;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Component
@@ -22,16 +24,18 @@ public class CSVRouteSQL extends RouteBuilder {
                     @Override
                     public void process(Exchange exchange) throws Exception {
                         Employee employee = exchange.getIn().getBody(Employee.class);
+                        List<Map<String, Object>> mapList = new ArrayList<>();
                         Map<String, Object> employeeMap = new HashMap<>();
                         employeeMap.put("id", employee.getId());
                         employeeMap.put("name", employee.getName());
                         employeeMap.put("address", employee.getAddress());
                         employeeMap.put("role", employee.getRole());
-                        exchange.getIn().setBody(employeeMap);
+                        mapList.add(employeeMap);
+                        exchange.getIn().setBody(mapList);
                     }
                 })
-                .log("Body : ${body}")
-                .to("sql:INSERT INTO employee(id,name,address,role) VALUES(:#id, :#name, :#address, :#role)")
-                .log("Data inserted to database success.");
+                .to("log:select?showAll=true&multiline=true")
+                .to("sql:INSERT INTO employee(id,name,address,role) VALUES(:#id, :#name, :#address, :#role)?batch=true") // Insert the data into the database
+                .log("Data inserted."); // Log the inserted data for debugging
     }
 }
