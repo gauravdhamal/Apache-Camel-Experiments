@@ -18,19 +18,19 @@ public class CSVRouteSQL extends RouteBuilder {
     public void configure() throws Exception {
         from("file:src/main/resources?fileName=empData.csv&noop=true")
                 .unmarshal(new BindyCsvDataFormat(Employee.class))
-                .split(body())
-                .streaming()
                 .process(new Processor() {
                     @Override
                     public void process(Exchange exchange) throws Exception {
-                        Employee employee = exchange.getIn().getBody(Employee.class);
+                        List<Employee> employees = exchange.getIn().getBody(List.class);
                         List<Map<String, Object>> mapList = new ArrayList<>();
-                        Map<String, Object> employeeMap = new HashMap<>();
-                        employeeMap.put("id", employee.getId());
-                        employeeMap.put("name", employee.getName());
-                        employeeMap.put("address", employee.getAddress());
-                        employeeMap.put("role", employee.getRole());
-                        mapList.add(employeeMap);
+                        for(Employee employee : employees) {
+                            Map<String, Object> employeeMap = new HashMap<>();
+                            employeeMap.put("id", employee.getId());
+                            employeeMap.put("name", employee.getName());
+                            employeeMap.put("address", employee.getAddress());
+                            employeeMap.put("role", employee.getRole());
+                            mapList.add(employeeMap);
+                        }
                         exchange.getIn().setBody(mapList);
                     }
                 })
