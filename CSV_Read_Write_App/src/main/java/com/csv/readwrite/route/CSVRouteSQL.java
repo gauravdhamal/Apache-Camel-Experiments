@@ -42,6 +42,7 @@ public class CSVRouteSQL extends RouteBuilder {
         // Batch insert with batchSize = 10x
 //        from("file:src/main/resources?fileName=empData.csv&noop=true")
 //                .unmarshal(new BindyCsvDataFormat(Employee.class))
+//                .setProperty("CamelBatchSize", constant(10))
 //                .process(new Processor() {
 //                    @Override
 //                    public void process(Exchange exchange) throws Exception {

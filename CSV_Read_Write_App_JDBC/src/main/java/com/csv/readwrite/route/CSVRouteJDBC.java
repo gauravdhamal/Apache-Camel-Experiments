@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
+import java.util.List;
 
 @Component
 @Setter
@@ -22,7 +23,7 @@ public class CSVRouteJDBC extends RouteBuilder {
 
     @Override
     public void configure() throws Exception{
-        // Insert root
+        // Insert root single-single query.
         from("file:src/main/resources?fileName=empData.csv&noop=true")
                 .unmarshal(new BindyCsvDataFormat(Employee.class))
                 .split(body())
@@ -38,6 +39,40 @@ public class CSVRouteJDBC extends RouteBuilder {
 //                .to("log:select?showAll=true&multiline=true")
                 .to("jdbc:dataSource")
                 .log("Data inserted to database success.");
+
+//        // Insert root with batchSize = 2 inserting data in batch.
+//        from("file:src/main/resources?fileName=empData.csv&noop=true")
+//                .unmarshal(new BindyCsvDataFormat(Employee.class))
+//                .setProperty("CamelBatchSize", constant(2))
+//                .process(new Processor() {
+//                    @Override
+//                    public void process(Exchange exchange) throws Exception {
+//                        List<Employee> employees = exchange.getIn().getBody(List.class);
+//                        StringBuilder finalQuery = new StringBuilder();
+//                        StringBuilder multiQuery = new StringBuilder("INSERT INTO employee(id,name,address,role) VALUES");
+//                        int count = 0;
+//                        int batchSize = 2;
+//                        for(Employee employee : employees){
+//                            count++;
+//                            String query = "("+employee.getId()+",'"+employee.getName()+"','"+employee.getAddress()+"','"+employee.getRole()+"')";
+//                            multiQuery.append(query + ",");
+//                            if(count == batchSize){
+//                                multiQuery.deleteCharAt(multiQuery.length()-1);
+//                                finalQuery.append(multiQuery+";");
+//                                count = 0;
+//                                multiQuery = new StringBuilder("INSERT INTO employee(id,name,address,role) VALUES");
+//                            }
+//                        }
+//                        finalQuery.deleteCharAt(finalQuery.length()-1);
+//                        System.out.println("finalQuery : "+finalQuery);
+//                        exchange.getIn().setBody(finalQuery);
+//                    }
+//                })
+//                .split(body().tokenize(";"))
+//                .log("Body : ${body}")
+////                .to("log:select?showAll=true&multiline=true")
+//                .to("jdbc:dataSource")
+//                .log("Data inserted to database success.");
 
 //        // Select root
 //        from("direct:select").setBody(constant("SELECT * FROM employee")).to("jdbc:dataSource")
