@@ -1,0 +1,7 @@
+employee:
+  file:
+    name: "src/main/resources?fileName=empData.csv&noop=true"
+
+sql:
+  insertEmployee-single: "sql:INSERT INTO employee(id,name,address,role) VALUES(:#id, :#name, :#address, :#role)"
+  insertEmployee-batch: "sql:INSERT INTO employee(id,name,address,role) VALUES(:#id, :#name, :#address, :#role)?batch=true"

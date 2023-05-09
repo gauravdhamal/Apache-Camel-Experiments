@@ -17,7 +17,7 @@ public class CSVRouteSQL extends RouteBuilder {
     @Override
     public void configure() throws Exception {
         // Batch insert all data.
-        from("file:src/main/resources?fileName=empData.csv&noop=true")
+        from("file:{{employee.file.name}}")
                 .unmarshal(new BindyCsvDataFormat(Employee.class))
                 .process(new Processor() {
                     @Override
@@ -36,7 +36,7 @@ public class CSVRouteSQL extends RouteBuilder {
                     }
                 })
                 .to("log:select?showAll=true&multiline=true")
-                .to("sql:INSERT INTO employee(id,name,address,role) VALUES(:#id, :#name, :#address, :#role)?batch=true") // Insert the data into the database
+                .to("{{sql.insertEmployee-batch}}") // Insert the data into the database
                 .log("Data inserted."); // Log the inserted data for debugging
 
         // Batch insert with batchSize = 10x
