@@ -42,7 +42,7 @@ public class ArgumentMathcerExamples {
     }
 
     @Test
-    public void testList_UsingBDD(){
+    public void testList_UsingBDD() {
         List<String> list = Mockito.mock(ArrayList.class);
 
         BDDMockito.given(list.get(Mockito.anyInt())).willReturn("Mockito");
