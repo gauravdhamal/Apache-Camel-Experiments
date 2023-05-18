@@ -30,6 +30,7 @@ public class ToDoBusiness {
         for(String str : list){
             if(!str.contains("Hibernate")){
                 toDoService.deleteToDos(str);
+                System.out.println("Printing input para : "+str);
             }
         }
 
