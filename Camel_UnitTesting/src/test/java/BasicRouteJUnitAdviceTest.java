@@ -1,3 +1,4 @@
+import org.apache.camel.LoggingLevel;
 import org.apache.camel.RoutesBuilder;
 import org.apache.camel.component.mock.MockEndpoint;
 import org.apache.camel.model.RouteDefinition;
@@ -26,6 +27,7 @@ public class BasicRouteJUnitAdviceTest extends CamelTestSupport {
         adviceWith(routeDefinition, context, new AdviceWithRouteBuilder() {
             @Override
             public void configure() throws Exception {
+                weaveAddFirst().log(LoggingLevel.ERROR, "Body before all (weaveAddFirst()) : ${body}");
                 weaveAddLast().to("mock:finishGreeting");
             }
         });
