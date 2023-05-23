@@ -11,16 +11,16 @@ public class SimpleMockTest extends CamelTestSupport {
         return new RouteBuilder() {
             @Override
             public void configure() throws Exception {
-                from("leadtsoquote.scheduler").to("mock:result");
+                from("direct:start").to("mock:result");
             }
         };
     }
 
     @Test
     public void testMock() throws InterruptedException {
-        getMockEndpoint("mock:result").expectedBodiesReceived("Hello World");
+        getMockEndpoint("mock:result").expectedBodiesReceived("Hello");
 
-        template.sendBody("leadtsoquote.scheduler", "Hello World");
+        template.sendBody("direct:start", "Hello");
 
         assertMockEndpointsSatisfied();
     }
