@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.BDDMockito;
 import org.mockito.Mockito;
-import static org.mockito.Mockito.times;
 
 import java.util.Arrays;
 import java.util.List;
