@@ -17,14 +17,16 @@ public class CSVRouteSQL extends RouteBuilder {
     @Override
     public void configure() throws Exception {
         // Batch insert all data.
-        from("file:{{employee.file.name}}")
+        from("file:src/main/resources?fileName=empData.csv&noop=true").id("insertEmp")
                 .unmarshal(new BindyCsvDataFormat(Employee.class))
                 .process(new Processor() {
                     @Override
                     public void process(Exchange exchange) throws Exception {
                         List<Employee> employees = exchange.getIn().getBody(List.class);
                         List<Map<String, Object>> mapList = new ArrayList<>();
+                        String emp = "";
                         for(Employee employee : employees) {
+                            emp += employee;
                             Map<String, Object> employeeMap = new HashMap<>();
                             employeeMap.put("id", employee.getId());
                             employeeMap.put("name", employee.getName());
@@ -33,10 +35,11 @@ public class CSVRouteSQL extends RouteBuilder {
                             mapList.add(employeeMap);
                         }
                         exchange.getIn().setBody(mapList);
+                        System.out.println("mapList : "+mapList);
                     }
                 })
                 .to("log:select?showAll=true&multiline=true")
-                .to("{{sql.insertEmployee-batch}}") // Insert the data into the database
+//                .to("{{sql.insertEmployee-batch}}") // Insert the data into the database
                 .log("Data inserted."); // Log the inserted data for debugging
 
         // Batch insert with batchSize = 10x
