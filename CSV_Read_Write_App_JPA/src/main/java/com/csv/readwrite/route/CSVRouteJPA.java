@@ -32,17 +32,17 @@ public class CSVRouteJPA extends RouteBuilder {
                 .to("jpa:Employee")
                 .log("Emp added to db");
 
-        from("timer:myTimer?period=100000")
-                .to("jpa://com.csv.readwrite.entity.Employee?consumeDelete=false&namedQuery=Employee.findAll")
-                .process(new Processor() {
-                    @Override
-                    public void process(Exchange exchange) throws Exception {
-                        ArrayList<Map<String, String>> mapList = exchange.getIn().getBody(ArrayList.class);
-                        System.out.println("mapList : "+mapList);
-                        exchange.getIn().setBody(mapList);
-                    }
-                })
-                .log("Body : ${body}");
+//        from("timer:myTimer?period=100000")
+//                .to("jpa://com.csv.readwrite.entity.Employee?consumeDelete=false&namedQuery=Employee.findAll")
+//                .process(new Processor() {
+//                    @Override
+//                    public void process(Exchange exchange) throws Exception {
+//                        ArrayList<Map<String, String>> mapList = exchange.getIn().getBody(ArrayList.class);
+//                        System.out.println("mapList : "+mapList);
+//                        exchange.getIn().setBody(mapList);
+//                    }
+//                })
+//                .log("Body : ${body}");
     }
 
     // To ignore the first line.
