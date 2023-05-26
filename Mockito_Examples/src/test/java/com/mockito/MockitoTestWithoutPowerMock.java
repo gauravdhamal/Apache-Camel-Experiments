@@ -7,6 +7,9 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
 public class MockitoTestWithoutPowerMock {
 
     @Test
@@ -27,13 +30,13 @@ public class MockitoTestWithoutPowerMock {
         String message = "Hi";
         String expectedMsg = "Hello";
 
-        FinalMethodClass finalMethodClass = Mockito.mock(FinalMethodClass.class);
+        FinalMethodClass finalMethodClassMock = Mockito.mock(FinalMethodClass.class);
 
-        Mockito.when(finalMethodClass.finalMethod(message)).thenReturn(expectedMsg);
+        Mockito.when(finalMethodClassMock.finalMethod(message)).thenReturn(expectedMsg);
 
-        String actualMsg = finalMethodClass.finalMethod(message);
+        String actualMsg = finalMethodClassMock.finalMethod(message);
 
-        Mockito.verify(finalMethodClass).finalMethod(message);
+        Mockito.verify(finalMethodClassMock).finalMethod(message);
         Assertions.assertEquals(expectedMsg, actualMsg);
     }
 
@@ -49,7 +52,7 @@ public class MockitoTestWithoutPowerMock {
         String actualMsg = privateMethodClassMock.callPrivateMethod(message);
 
         Mockito.verify(privateMethodClassMock).callPrivateMethod(message);
-        Assertions.assertEquals(expectedMsg , actualMsg);
+        Assertions.assertEquals(expectedMsg, actualMsg);
     }
 
 }
